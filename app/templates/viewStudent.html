@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>View Student</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <ul>
+        <li><a  href="{{url_for('instructor')}}">Home</a></li>
+          <li><a class="active"href="{{url_for('findStudent')}}">Find Student</a></li>
+          <li><a href="{{url_for('addStudent')}}">Add Student</a></li>
+		  <li><a href="#about">Testing Month</a></li>
+          <li><a href="#about">Instructor Schedule</a></li> 
+    </ul>
+  </head>
+  <body>
+      <center>
+          <h1 >{{ firstName}} {{ lastName }}</h1>
+      </center>
+    
+      <form action="" method=post>
+      <table border = 1 style="width:25%;">
+        {% for x in range(colHeading|length) %}
+        <tr>
+            <th style="text-align: left"> {{ colHeading[x] }} </th>
+            {% if x <= 2 %}
+                {% if x == 1 %}
+                <td> {{ firstName }} </th>
+                {% elif x == 2 %}
+                <td> {{lastName}} </th>
+                
+                {% else %}
+                <td > {{info[x] }} </th> 
+                {% endif %}
+            {% else %}
+            <td> <input type="text"  size="30" name="{{ colHeading[x] }}" value="{{info[x] }}" > </th>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+      <br>
+      <br>
+        <input id = "save"  type="submit" value="Save"> 
+      </form>
+
+      {% if success %}
+            <h2><strong>Success:</strong> {{ status }} </h2>
+      {% endif %}
+
+  </body>
+</html>
+

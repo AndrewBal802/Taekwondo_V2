@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}"> 
+        <ul>
+        <li><a  href="{{url_for('instructor')}}">Home</a></li>
+          <li><a class="active" href="{{url_for('findStudent')}}">Find Student</a></li>
+          <li><a  href="{{url_for('addStudent')}}">Add Student</a></li>
+		  <li><a href="#about">Testing Month</a></li>
+          <li><a href="#about">Instructor Schedule</a></li> 
+    	</ul>
+
+        <center>
+            <title>Find Student</title>
+            <h1> Find Student</h1>
+        </center>
+    </head>
+    <body>
+         <form  action="" method=post>
+			<label for="fname">Student First Name:</label>
+			<input type="text"   placeholder="First Name" 
+            name="firstName" value="{{ request.form.firstName }}"><br><br> 
+
+			<label for="fname">Student Last Name: </label>
+            <input type="text"  placeholder = "Last Name " name="lastName" value = "{{ request.form.lastName }}"><br><br>
+				<input id = "find"  type="submit" value="Find Student">
+		</form>	
+			  {% if error %}
+					<p><strong>Error:</strong> {{ error }}
+			  {% endif %}
+
+    </body>
+
+    <script>
+    </script>
+
+</html>

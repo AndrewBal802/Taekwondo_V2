@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Add Student</title>
+  </head>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <ul>
+        <li><a  href="{{url_for('instructor')}}">Home</a></li>
+          <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
+          <li><a class="active" href="{{url_for('addStudent')}}">Add Student</a></li>
+		  <li><a href="#about">Testing Month</a></li>
+          <li><a href="#about">Instructor Schedule</a></li> 
+    </ul>
+
+  <body>
+      <center>
+          <h1 >Add Student</h1>
+      </center>
+        <form  action="" method=post>
+			<label for="fname"> Student First Name:</label>
+			<input type="text"   placeholder="First Name" name="firstName" value="{{ request.form.firstName }}"><br><br> 
+
+			<label for="fname">Student Last Name:</label>
+            <input type="text"  placeholder= "Last Name" name="lastName" value="{{ request.form.lastName }}"><br><br>
+			
+            <label for="fname">Start Date:</label>
+            <input type="text"  placeholder= "Start Date" name="startDate" value="{{ request.form.startDate }}"><br><br>
+			
+            <input id = "login"  type="submit" value="Add Student">
+        </form>
+
+         <p>*Note: Unique Students will only be added</p>  
+         {% if success %}
+         <h2><strong>Success:</strong> {{ success }} </h2>
+         {% endif %}
+
+  </body>
+</html>
+

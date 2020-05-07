@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Admin Screen</title>
+  </head>
+  <body>
+    <form  action="" method=post>
+    <h1 align="center">Admin Screen Page</h1>
+    <center>
+    <label for="fname">Admin Username:</label>
+    <input type="text"   name="username" value="{{request.form.username }}"><br><br> 
+
+    <label for="fname">Admin Password:</label>
+    <input type="text"  name="password"><br><br>
+    </center>
+      <center>
+        <input id = "login"  type="submit" value="Login">
+      </center>
+    </form>	
+      {% if error %}
+         <p><strong>Error:</strong> {{ error }}
+      {% endif %}
+    <!--
+    <script language="javascript">
+        
+      function check(form){
+          console.log("HELLOWORLD");
+        if(form.user.value == "admin" && form.pass.value == "admin"){
+            window.open("Instructor.html","_self");
+        }else{
+            alert("Wrong username and/or password");
+        }
+
+      }
+    </script>
+    -->
+  </body>
+</html>
+

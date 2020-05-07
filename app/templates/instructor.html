@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <ul>
+        <li><a  class="active"href="{{url_for('instructor')}}">Home</a></li>
+          <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
+          <li><a href="{{url_for('addStudent')}}">Add Student</a></li>
+		  <li><a href="#about">Testing Month</a></li>
+          <li><a href="#about">Instructor Schedule</a></li> 
+    </ul>
+
+        <center>
+            <title>Instructor Menu</title>
+            <h1> Instructor Menu</h1>
+        </center>
+
+    </head>
+    <body>
+        <center>
+            <form style="display:inline-block;" action="{{url_for('findStudent')}}" >
+                    <input id = "findStudent" type =  "submit" value = "Find Student">
+            </form>
+            
+            <form style="display:inline-block;" action="{{url_for('addStudent')}}">
+                <input id = "addStudent" type = "submit" value = "Add Student"> 
+            </form>
+            
+            <form style="display:inline-block;">
+                <input id = "testingMonth" type = "submit" value = 
+                "Testing Month List">
+            </form>
+            
+            <form style="display:inline-block;">
+                <input id = "instructorSchedule" type = "submit" value = 
+                        "Instructor Schedule">
+            </form>
+
+        </center>
+    </body>
+
+    <script>
+    </script>
+
+</html>

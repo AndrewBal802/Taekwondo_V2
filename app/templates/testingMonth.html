@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Testing Month</title>
+  </head>
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <ul>
+        <li><a  href="{{url_for('instructor')}}">Home</a></li>
+          <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
+          <li><a  href="{{url_for('addStudent')}}">Add Student</a></li>
+          <li><a class="active"href="{{url_for('testingMonth') }}">Testing Month</a></li>
+          <li><a href="{{url_for('qrCode') }}">Quick Login</a></li> 
+    </ul>
+
+  <body>
+      <center>
+          <h1 >Generate Testing Month</h1>
+      </center>
+        <form  action="" method=post>
+			<label for="fname"> Date(yyyy-mm-dd):</label>
+			<input type="text"   placeholder="yyyy-mm-dd" name="date" value="{{ request.form.date }}"><br><br> 
+
+			
+            <input id = "login"  type="submit" value="Generate Month">
+        </form>
+
+         {% if status %}
+         <p style="font-size:22px"> {{ status }} <strong> {{ date }} </strong> </p>
+         {% endif %}
+
+  </body>
+

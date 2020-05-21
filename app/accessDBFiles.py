@@ -47,6 +47,7 @@ def MainFun():
                                         BLACK_Stripe_Belt text,
                                         BLACK_Belt text,
 					COMMENTS text
+                                        Login_Times text
                                     ); """
 
 
@@ -75,8 +76,8 @@ def insertData(conn,info):
     :return:
     """
 
-    sql = ''' INSERT INTO students(firstName,lastName,begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS)
-              VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
+    sql = ''' INSERT INTO students(firstName,lastName,begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS,Login_Times)
+              VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, info)
     return cur.lastrowid
@@ -91,7 +92,7 @@ def addStudent(conn,firstName,lastName,startDate):
     if (findStudent(conn,firstName,lastName) != None): #if student already exist in database
         return False #no student has been added
     with conn:
-        info = (firstName,lastName,startDate,'','','','','','','','','','','','')
+        info = (firstName,lastName,startDate,'','','','','','','','','','','','','')
         insertData(conn,info)
 
     return True
@@ -143,11 +144,73 @@ def updateBeltInfo(conn,ID,begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,
    
     with conn:
         info = (begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS,ID)
+        print(info)
+        print(type(info))
         updatingInfo(conn,info)
         
         return True
 
     return False
+
+def findStudentsAtSpecifcDate(conn,date):
+    cursor = conn.cursor()
+    select_query = """ SELECT * from students"""
+    cursor.execute(select_query)
+    records = cursor.fetchall() #2D array
+
+    
+    collectedStudents = []
+    colHeadingNames = getColumnNames(conn)
+    
+    colTracker = 0
+    for row in records:
+        for info in row:
+            if (info == date and colTracker > 3):
+                currentStudentInfo = [row[0],row[1],row[2],colHeadingNames[colTracker]]
+                collectedStudents.append(currentStudentInfo) #appending the students ID number, first and last name
+                break
+            colTracker += 1
+        colTracker = 0
+
+    cursor.close()
+    return collectedStudents
+
+
+def getLoginInfo(conn,ID):
+    cursor = conn.cursor()
+    select_query = ''' SELECT Login_Times from students WHERE id = ?'''
+    info = (ID,)
+    cursor.execute(select_query, info)
+    records = cursor.fetchall() #2D array
+
+    currentLoginInfo = ""
+    for data in records: #list
+        for info in data: #tuple
+            currentLoginInfo = info
+    return currentLoginInfo
+
+
+
+def appendLoginInfo(conn,loginTime,ID):
+    getCurrentLogin = getLoginInfo(conn,ID)
+    sql = ''' UPDATE students
+              SET Login_Times = ?
+              WHERE id = ? '''
+    if (getCurrentLogin == None):
+        getCurrentLogin = loginTime + "\n"
+    else:
+        getCurrentLogin = getCurrentLogin +  "\n" + loginTime + "\n"
+    with conn:
+        cur = conn.cursor()
+        info = (getCurrentLogin,ID)
+        cur.execute(sql, info)
+        conn.commit()
+
+
+
+"""NOTES:
+    to add column in .db file, "ALTER TABLE table_name ADD Login_Times NULL";
+"""
 
 #print(findStudent("Andrew","Balmakund"))
 #addStudent("Brian","Balmakund","2020-05-05")

@@ -1,14 +1,14 @@
 <html>
   <head>
     <title>Add Student</title>
-  </head>
+ </head>
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
     <ul>
         <li><a  href="{{url_for('instructor')}}">Home</a></li>
           <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
           <li><a class="active" href="{{url_for('addStudent')}}">Add Student</a></li>
-		  <li><a href="#about">Testing Month</a></li>
-          <li><a href="#about">Instructor Schedule</a></li> 
+          <li><a href="{{url_for('testingMonth') }}">Testing Month</a></li>
+         <li><a href="{{url_for('qrCode') }}">Quick Login</a></li> 
     </ul>
 
   <body>
@@ -29,10 +29,9 @@
         </form>
 
          <p>*Note: Unique Students will only be added</p>  
-         {% if success %}
-         <h2><strong>Success:</strong> {{ success }} </h2>
-         {% endif %}
-
+            {% if success %}
+          <h2><strong>Success:</strong> {{ success }} </h2>
+                   {% endif %}
   </body>
 </html>
 

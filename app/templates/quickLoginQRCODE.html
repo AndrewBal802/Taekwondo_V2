@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Quick Login (QR-CODE)</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <ul>
+        <li><a  href="{{url_for('instructor')}}">Home</a></li>
+          <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
+          <li><a href="{{url_for('addStudent')}}">Add Student</a></li>
+          <li><a href="{{url_for('testingMonth') }}">Testing Month</a></li>
+          <li><a class="active" href="{{url_for('qrCode') }}">Quick Login</a></li> 
+    </ul>
+
+
+  </head>
+  <body>
+      <center>
+        <h1>Student Login (QR-CODE)</h1>
+        <img id="bg" src="{{ url_for('video_feed') }}" >
+      </center>
+
+		{% if currentStudent %}
+         <p><strong>Success:</strong> {{ currentStudent }}  you have signed in.</p>
+      {% endif %}
+
+  </body>
+</html>

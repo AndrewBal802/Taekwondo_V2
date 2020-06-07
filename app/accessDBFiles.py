@@ -97,6 +97,7 @@ def addStudent(conn,firstName,lastName,startDate):
 
     return True
 
+#TODO: update getColumnNames function name to getStudentHeader(conn)
 def getColumnNames(conn):
     cursor = conn.cursor()
     select_query = """ SELECT * from students"""
@@ -140,10 +141,12 @@ def updatingInfo(conn,info):
     cur.execute(sql, info)
     conn.commit()
 
-def updateBeltInfo(conn,ID,begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS):
+def updateBeltInfo(conn,ID,begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,
+        BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS):
    
     with conn:
-        info = (begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS,ID)
+        info = (begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,
+                BLUE_Stripe_Belt,BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS,ID)
         print(info)
         print(type(info))
         updatingInfo(conn,info)
@@ -206,7 +209,80 @@ def appendLoginInfo(conn,loginTime,ID):
         cur.execute(sql, info)
         conn.commit()
 
+def getInventoryHeader(conn):
+    cursor = conn.cursor()
+    #select_query = """ SELECT * from inventory"""
+    select_query = "SELECT name FROM sqlite_master WHERE type='table';"
+    cursor.execute(select_query)
+    
+    colNames = cursor.fetchall() #returns a list of single tuples with the names of all tables in the database
 
+    colNames.remove(('students',)) #removing student table from inventory
+
+    names = []
+    for namesList in colNames:
+        for namesTuple in namesList:
+            names.append(namesTuple)
+
+    return names
+
+def checkForIfInventoryHeaderExists(conn,currentName):
+    arrayNames = getInventoryHeader(conn)
+    
+    if (currentName in arrayNames):
+        return True #name exists
+    else:
+        return False #name doesnt exists
+    
+
+def insertInventoryCategory(conn,colName):
+    if (len(colName) == 0 or checkForIfInventoryHeaderExists(conn,colName) == True):
+        return
+
+    cursor = conn.cursor() 
+    info = (colName,)
+    #cursor.execute('''ALTER TABLE inventory ADD COLUMN ? text''', info) #this currrent method doesnt work
+
+    #need to double check if this method is select_query
+    #cursor.execute("ALTER TABLE inventory ADD COLUMN '{name}' text".format(name=colName))
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS '{tableName}'(id integer PRIMARY KEY, '{colName}' text NOT NULL)'''
+            .format(tableName=colName,colName=colName))
+    return
+
+def getInventoryCategoryData(conn,tableName):
+    cursor = conn.cursor()
+    #if you replace * with '{tableName}' there is a strange bug
+    cursor.execute('''SELECT * FROM '{tableName}' '''.format(tableName=tableName)) 
+
+    rows = cursor.fetchall()
+    #print(rows)
+    data = []
+
+    for item in rows:
+        data.append(item[1].strip()) #item will be a tuple of (id, colData)
+    return data
+
+#need to find a more efficient method, because there several empty spaces
+def addInventoryItems(conn,colName,item):
+    if (len(item) == 0):
+        return False
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO '{tableName}'( '{colName}' ) VALUES ( '{item}' )"
+        .format(tableName=colName,colName=colName,item=item))
+    conn.commit()
+    return True 
+
+def updateInventoryItems(conn,colName,itemList):
+    if (len(itemList) == 0):
+        return False
+
+    cursor = conn.cursor()
+    for i in range(len(itemList)):
+        info = (itemList[i][1], itemList[i][0])
+        cursor.execute(" UPDATE '{tableName}' SET '{colName}' = ? where id = ? ".format(tableName=colName,colName=colName),info)
+        conn.commit()
+    return True
 
 """NOTES:
     to add column in .db file, "ALTER TABLE table_name ADD Login_Times NULL";

@@ -67,7 +67,7 @@ def viewStudent(fullName):
     info = accessDBFiles.findStudent(conn,firstName,lastName)
 
     loginInfo = info[-1]
-
+    
     colHeading = accessDBFiles.getColumnNames(conn)
    #begin_date,WHITE_Belt,YELLOW_Stripe_Belt,YELLOW_Belt,GREEN_Stripe_Belt,GREEN_Belt,BLUE_Stripe_Belt,
    #BLUE_Belt,RED_Stripe_Belt,RED_Belt,BLACK_Stripe_Belt,BLACK_Belt,COMMENTS)
@@ -142,6 +142,7 @@ def testingMonth():
         print(listOfStudents)
     return render_template('testingMonth.html',status = status, date = date)
 
+
 def readCred():
     f = open("Data/Credentials.txt","r")
     arrayList = []
@@ -160,6 +161,7 @@ def create_connection():
     """
     """conn = None
     try:
+
         conn = sqlite3.connect(db_file)
         return conn
     except Error as e:
@@ -193,6 +195,47 @@ def video_feed():
     videoCamera = openCVQRCODE.VideoCamera()
     return Response(gen(videoCamera), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/inventory', methods = ['GET','POST'])
+def inventory():
+    conn = create_connection()
+    colHeading = accessDBFiles.getInventoryHeader(conn)
+    colHeading.sort()
+    info = None
+    currentUserSelection = None
+
+    if (request.method == 'POST'):
+        currentUserSelection = str(request.form['colHeading'])
+        if (request.form['submitButton'] == 'Get Info'):
+            print(str(request.form['colHeading']))
+            info = accessDBFiles.getInventoryCategoryData(conn,currentUserSelection)
+            #currentUserSelection = str(request.form['colHeading'])
+
+        elif (request.form['submitButton'] == 'Create New Heading'):
+            print(str(request.form['headerName']))
+            newHeaderName = str(request.form['headerName'])
+            accessDBFiles.insertInventoryCategory(conn,newHeaderName)
+            return redirect(url_for('inventory'))
+
+        elif (request.form['submitButton'] == "Enter Items"):
+            #headerName = str(request.form['colHeading'])
+            headerName = currentUserSelection
+            item = str(request.form['itemText'])
+            print(headerName,item)
+            accessDBFiles.addInventoryItems(conn,headerName,item)
+        
+        elif (request.form['submitButton'] == "Save"):
+            currentItems = accessDBFiles.getInventoryCategoryData(conn,currentUserSelection)
+            numOfItems = len(currentItems)
+            
+            updatedItems = [] #list of tuple's: (id, colData)
+            for i in range(numOfItems):
+                currentRow = i+1
+                updatedItems.append((currentRow,request.form['%s' % currentRow]))
+            
+            print(updatedItems)
+            accessDBFiles.updateInventoryItems(conn,currentUserSelection,updatedItems)
+    return render_template('viewInventory.html', colHeading = colHeading, info = info , currentUserSelection = currentUserSelection)
+
 
 
 @app.teardown_appcontext
@@ -200,6 +243,7 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD']=True

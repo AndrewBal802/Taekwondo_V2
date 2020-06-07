@@ -40,22 +40,36 @@
                   <td> <h2> Login Time stamps </h2> </th>
               </tr>
               <tr>
-                  
-                  <td><textarea style="overflow-y: scroll;height: 350px;resize: none;" readonly>{{ loginInfo }} </textarea>
+                  <td><textarea style="overflow-y: scroll;height: 350px;resize: none;" id = "timeTextArea" readonly>{{ loginInfo }} </textarea>
                 </th>
                 <tr>
           </table>
-          <br>
-          
-          <br>
-        <input id = "save"  type="submit" value="Save"> 
-        
+<input id = "save" type="submit" value="Save"> 
+
       </form>
+           <input type="text" id="findTime" >
+          <input id = "buttonTextArea" type = "submit" onclick="findTimeStamp()" value = "Find"> 
+
+           <br>
+          <br>
        
       {% if success %}
             <h2><strong>Success:</strong> {{ status }} </h2>
       {% endif %}
+       
+      <script>
+          function findTimeStamp(){
+              var timeTarget = document.getElementById('findTime').value;
+              var findText = document.getElementById('timeTextArea').value;
+              
+              var textArray  = findText.split("\n").filter(Boolean); 
+              var results = (textArray.indexOf(timeTarget) > -1);
+            console.log(findText.split("\n").filter(Boolean));
+              console.log(results);
+          }
+      </script>
 
   </body>
+
 </html>
 

@@ -25,3 +25,10 @@ li a:hover:not(.active) {
 .active {
   background-color: #0000B4;
 }
+
+div.horizontalgap {
+  float: left;
+  overflow: hidden;
+  height: 1px;
+  width: 40px;
+}

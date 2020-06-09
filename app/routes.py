@@ -230,10 +230,19 @@ def inventory():
             updatedItems = [] #list of tuple's: (id, colData)
             for i in range(numOfItems):
                 currentRow = i+1
-                updatedItems.append((currentRow,request.form['%s' % currentRow]))
-            
+
+                itemName = str(request.form["itemName-%s" % currentRow]).strip()
+                quantity = str(request.form["quantity-%s" % currentRow]).strip()
+
+                concatInfo = itemName + "-" + quantity
+                print(concatInfo)
+                
+                #updatedItems.append((currentRow,request.form['%s' % currentRow]))
+                updatedItems.append((currentRow, concatInfo.strip()))
+
             print(updatedItems)
             accessDBFiles.updateInventoryItems(conn,currentUserSelection,updatedItems)
+
     return render_template('viewInventory.html', colHeading = colHeading, info = info , currentUserSelection = currentUserSelection)
 
 

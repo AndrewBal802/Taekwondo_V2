@@ -3,15 +3,7 @@
   <head>
     <title>Inventory</title>
     
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-    <ul>
-        <li><a  href="{{url_for('instructor')}}">Home</a></li>
-          <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
-          <li><a href="{{url_for('addStudent')}}">Add Student</a></li>
-          <li><a href="{{url_for('testingMonth') }}[<0;54;11M">Testing Month</a></li>
-          <li><a href="{{url_for('qrCode') }}">Quick Login</a></li>
-	<li><a class="active" href="{{url_for('inventory') }}">Inventory</a></li>
-    </ul>
+    {% include 'tabHeadings.html' %}
   </head>
 
   <body>
@@ -46,7 +38,7 @@
     <br>
     {% if info %}
        
-	<table border = 1 style=" float: left;">
+	<table border = 1 style="">
         {% for x in range(info|length ) %}
         <tr>
             {% set item = info[x].split('-') %}

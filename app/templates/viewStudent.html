@@ -1,14 +1,7 @@
 <html>
   <head>
     <title>View Student</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-    <ul>
-        <li><a  href="{{url_for('instructor')}}">Home</a></li>
-          <li><a class="active"href="{{url_for('findStudent')}}">Find Student</a></li>
-          <li><a href="{{url_for('addStudent')}}">Add Student</a></li>
-          <li><a href="{{url_for('testingMonth') }}">Testing Month</a></li>
-          <li><a href="{{url_for('qrCode') }}">Quick Login</a></li> 
-    </ul>
+  {% include 'tabHeadings.html' %}
   </head>
   <body>
       <center>
@@ -16,7 +9,7 @@
       </center>
     
       <form action="" method=post>
-      <table border = 1 style=" float: left;">
+      <table border = 1 style="float: left;">
         {% for x in range(colHeading|length -1) %}
         <tr>
             <th style="text-align: left"> {{ colHeading[x] }} </th>

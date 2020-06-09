@@ -2,15 +2,7 @@
   <head>
     <title>Add Student</title>
  </head>
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
-    <ul>
-        <li><a  href="{{url_for('instructor')}}">Home</a></li>
-          <li><a href="{{url_for('findStudent')}}">Find Student</a></li>
-          <li><a class="active" href="{{url_for('addStudent')}}">Add Student</a></li>
-          <li><a href="{{url_for('testingMonth') }}">Testing Month</a></li>
-         <li><a href="{{url_for('qrCode') }}">Quick Login</a></li> 
-    </ul>
-
+	{% include 'tabHeadings.html' %}
   <body>
       <center>
           <h1 >Add Student</h1>

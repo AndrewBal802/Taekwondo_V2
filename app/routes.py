@@ -29,7 +29,7 @@ def home():
 @app.route('/instructor', methods = ['GET', 'POST'])
 def instructor():
 
-    return render_template('instructor.html')
+    return render_template('instructor.html',instructorActive="active")
 
 
 @app.route('/instructor/findStudent',  methods = ['GET', 'POST'])
@@ -52,7 +52,7 @@ def findStudent():
         else:
             return redirect(url_for('viewStudent',fullName = firstName+"_"+lastName))
 
-    return render_template('findStudent.html',error = error)
+    return render_template('findStudent.html',findStudentActive="active",error = error)
 
 
 @app.route('/instructor/findStudent/viewStudent/<fullName>', methods = ['GET', 'POST'])
@@ -102,7 +102,7 @@ def viewStudent(fullName):
                 #return redirect(url_for('viewStudent',fullName = fullName),status)
 
 
-    return render_template('viewStudent.html', firstName = firstName, \
+    return render_template('viewStudent.html', viewStudentActive="active",firstName = firstName, \
             lastName = lastName,colHeading = colHeading, info = info, success = success, status = status, loginInfo = loginInfo)
 
 
@@ -118,7 +118,7 @@ def addStudent():
         currentStatus = accessDBFiles.addStudent(conn,firstName,lastName,startDate)
         if currentStatus == True:
             success = "Added " + firstName + " " + lastName + " has been added successively!"
-    return render_template('addStudent.html',success = success )
+    return render_template('addStudent.html',addStudentActive="active",success = success )
 
 
 #assuming that the dates in date base have been entered as yyyy-mm-dd
@@ -140,7 +140,7 @@ def testingMonth():
         else:
             status = "There are no students schedule to test in "
         print(listOfStudents)
-    return render_template('testingMonth.html',status = status, date = date)
+    return render_template('testingMonth.html',testingMonthActive="active",status = status, date = date)
 
 
 def readCred():
@@ -182,7 +182,7 @@ def qrCode():
     if (videoCamera != None):
         currentStudent = videoCamera.getQRCodes()
 
-    return render_template('quickLoginQRCODE.html',currentStudent = currentStudent)
+    return render_template('quickLoginQRCODE.html',qrCodeActive="active",currentStudent = currentStudent)
 
 def gen(camera):
     while True:
@@ -243,7 +243,7 @@ def inventory():
             print(updatedItems)
             accessDBFiles.updateInventoryItems(conn,currentUserSelection,updatedItems)
 
-    return render_template('viewInventory.html', colHeading = colHeading, info = info , currentUserSelection = currentUserSelection)
+    return render_template('viewInventory.html', inventoryActive="active",colHeading = colHeading, info = info , currentUserSelection = currentUserSelection)
 
 
 

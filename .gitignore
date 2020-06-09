@@ -854,8 +854,4 @@ MigrationBackup/
 
 
 # Certain Directories 
-
-UCanAccess-5.0.0-bin/
-UCanAccess-5.0.0-src/
-jarFiles/
-
+Data/

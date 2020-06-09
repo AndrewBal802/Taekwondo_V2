@@ -15,11 +15,15 @@
   </head>
 
   <body>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <script src="{{ url_for('static', filename='buttonPlusOrMinus.js') }}"></script>
+    
+
     <center>
       <h1>Inventory </h1>
     </center>
 
-    <form action="" method=post>
+    <form action="" method="post">
     <label>Item: </label>
 
     <select name="colHeading" id="colHeading" style="width: 300px;">
@@ -45,7 +49,16 @@
 	<table border = 1 style=" float: left;">
         {% for x in range(info|length ) %}
         <tr>
-            <th><textarea style="resize: none;height: 25;" name="{{ x+1 }}">{{ info[x] }} </textarea> </th>
+            {% set item = info[x].split('-') %}
+            <th> <textarea type = "text" id = "itemName-{{x+1}}" name = "itemName-{{x+1}}" value>{{ item[0] }}</textarea></th>
+            
+            <!--
+            <td><textarea style="resize: none;height: 25;" name="{{ x+1 }}">{{ item[1] }} </textarea> </th>
+            -->
+            <td>  <button type="button" id="sub" class="sub">-</button>
+                  <input type="text" id="quantity-{{x+1}}" name = "quantity-{{x+1}}" value="{{ item[1] }}" class="field"  style = "width: 60px;"/>
+                  <button type="button" id="add" class="add">+</button>
+            </th>
 
         </tr>
         {% endfor %}
@@ -69,5 +82,11 @@
 
     </form>
   </body>
-  
+   <script>
+          $('.add').click(function () {
+          $(this).prev().val(+$(this).prev().val() + 1);
+      });
+      $('.sub').click(function () {
+          if ($(this).next().val() > 0) $(this).next().val(+$(this).next().val() - 1);
+      }); </script>
 </html>

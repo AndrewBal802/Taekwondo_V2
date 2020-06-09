@@ -16,11 +16,11 @@ from sqlite3 import Error
 
 DATABASE = 'Data/info.db'
 
-video = VideoStream(src=0).start()
+
 class VideoCamera(object):
     def __init__(self):
        #capturing video
-       self.video = video 
+       self.video = VideoStream(src=0).start() 
        self.currentQRCodes = ""
        self.currentDateForFile = None
     

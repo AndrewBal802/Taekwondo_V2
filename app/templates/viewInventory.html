@@ -36,8 +36,35 @@
 
     <br>
     <br>
+        <label>Enter Item: </label>
+        <table border=1 style="float: middle">
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+            </tr>
+            
+            <tr>
+                <td>                  
+                    <textarea id = "itemText" name= "itemText" value=""></textarea>
+                    
+                </th>
+
+               <td>  <button type="button" id="sub" class="sub">-</button>
+                  <input type="text" id="newQuantity" name = "newQuantity" value="0" class="field"  style = "width: 60px;"/>
+                  <button type="button" id="add" class="add">+</button>
+               </th>
+
+                
+            </tr>
+        </table>
+        
+        <input id = "submitButton" name = "submitButton"  type="submit" value="Enter Items">
+        <br>
+        <br>
     {% if info %}
-       
+   
+
+
 	<table border = 1 style="">
         {% for x in range(info|length ) %}
         <tr>
@@ -60,16 +87,8 @@
     <!--
        Add Items 
     -->
-       
-        <label>Enter Item: </label>
-        <br>
-        <textarea id = "itemText" name= "itemText" value=""></textarea>
-        
-        <input id = "submitButton" name = "submitButton"  type="submit" value="Enter Items">
-   
-        <br>
-        <br>
-        <br>
+    <br> 
+    <br>
         <input id = "submitButton" name = "submitButton" type = "submit" value = "Save">
 
     </form>

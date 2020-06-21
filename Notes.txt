@@ -1,0 +1,3 @@
+Producing barcode:
+    python-barcode (reference: https://pypi.org/project/python-barcode/)
+

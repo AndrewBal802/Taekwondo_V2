@@ -33,7 +33,9 @@
                   <td> <h2> Login Time stamps </h2> </th>
               </tr>
               <tr>
-                  <td><textarea style="overflow-y: scroll;height: 350px;resize: none;" id = "timeTextArea" readonly>{{ loginInfo }} </textarea>
+                  <td><textarea style="overflow-y: scroll;height: 350px;resize: none;" id = "timeTextArea" readonly>{% for login in loginInfo %}{{ login }}
+                          {% endfor %}
+                      </textarea>
                 </th>
                 <tr>
           </table>

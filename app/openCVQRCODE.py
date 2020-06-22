@@ -79,7 +79,9 @@ class VideoCamera(object):
             self.currentDateForFile = datetime.now().strftime('%Y-%m-%d-%H')
         
         else:
-            cv2.putText(frame,"You can only sign in between " + str(currentHour)+":45 and " + str((currentHour+1))+":15" , (25,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),2)
+            currentHour = int(datetime.now().strftime('%I'))
+            timePeriod = "am" if currentHour >= 12 else "pm"
+            cv2.putText(frame,"You can only sign in between " + str(currentHour)+":45 " + timePeriod + " and " + str(currentHour+1)+":15 "+ timePeriod , (25,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),2)
             ret, jpeg = cv2.imencode('.jpg', frame)
             return jpeg.tobytes() 
        
